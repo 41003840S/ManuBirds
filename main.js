@@ -62,7 +62,7 @@ var mainState = (function (_super) {
         this.startText = this.add.text(this.world.centerX, this.world.centerY, 'Click to start', { font: "40px Arial", fill: "#000000" });
         this.startText.anchor.setTo(0.5, 0.5);
         this.startText.fixedToCamera = true;
-        this.scoreText = this.add.text(10, 10, 'Score: ' + this.score, { font: "15px Arial", fill: "#ffffff" });
+        this.scoreText = this.add.text(10, 10, 'Score: ' + this.score, { font: "30px Arial", fill: "#ffffff" });
         this.startText.anchor.setTo(0.5, 0.5);
         this.startText.fixedToCamera = true;
         this.gameOverText = this.add.text(this.world.centerX, this.world.centerY, '     Game Over \n <Click to restart>', { font: "40px Arial", fill: "#000000" });
@@ -152,6 +152,7 @@ var mainState = (function (_super) {
     mainState.prototype.gameOver = function (bird, floor) {
         this.gameOverText.visible = true;
         this.bird.kill();
+        this.hitSound.play();
         this.input.onTap.addOnce(this.restart, this);
         this.gameOverComp = true;
     };

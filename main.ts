@@ -58,6 +58,7 @@ class mainState extends Phaser.State {
 
     }
     update():void {
+
         super.update();
 
         this.colisiones();
@@ -91,7 +92,7 @@ class mainState extends Phaser.State {
         this.startText.fixedToCamera = true;
 
         this.scoreText = this.add.text(10, 10, 'Score: ' + this.score,
-            {font: "15px Arial", fill: "#ffffff"});
+            {font: "30px Arial", fill: "#ffffff"});
         this.startText.anchor.setTo(0.5, 0.5);
         this.startText.fixedToCamera = true;
 
@@ -100,7 +101,6 @@ class mainState extends Phaser.State {
         this.gameOverText.anchor.setTo(0.5, 0.5);
         this.gameOverText.fixedToCamera = true;
         this.gameOverText.visible = false;
-
     }
 
     cargarFondo():void{
@@ -141,8 +141,6 @@ class mainState extends Phaser.State {
         this.startText.visible = false;
         this.game.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
         this.game.time.events.loop(Phaser.Timer.SECOND, this.updateScoreCounter, this);
-
-
     }
 
     configPipes():void{
@@ -215,6 +213,7 @@ class mainState extends Phaser.State {
     gameOver(bird:Phaser.Sprite, floor:Phaser.Sprite):void{
         this.gameOverText.visible = true;
         this.bird.kill();
+        this.hitSound.play();
         this.input.onTap.addOnce(this.restart,this);
         this.gameOverComp=true;
 
@@ -234,10 +233,7 @@ class mainState extends Phaser.State {
             this.pipeGroup.setAll("body.velocity.x", -150);
         }
     }
-
-
 }
-
 
 
 class Pipe extends Phaser.Sprite{

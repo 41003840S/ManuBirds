@@ -56,6 +56,13 @@ var mainState = (function (_super) {
         if (!this.gameOverComp) {
             this.scoreText.setText("Score: " + this.score);
         }
+        //Si la velocidad
+        if (this.bird.body.velocity.y > 0) {
+            this.bird.angle = 45;
+        }
+        else {
+            this.bird.angle = -45;
+        }
     };
     //----------------------CREATES------------------------------//
     mainState.prototype.crearTextos = function () {
@@ -92,6 +99,7 @@ var mainState = (function (_super) {
         this.bird.body.collideWorldBounds = true;
         this.bird.checkWorldBounds = true;
         this.bird.body.allowGravity = true;
+        this.bird.body.allowRotation = true;
         this.input.onTap.addOnce(this.empezar, this);
     };
     mainState.prototype.empezar = function () {
@@ -122,12 +130,6 @@ var mainState = (function (_super) {
         var yA = param["y"];
         var pipe = new Pipe(this.game, x, y, "pipe", 0);
         var pipe1 = new Pipe(this.game, xA, yA, "pipe1", 0);
-        /*
-         var pipe = new Pipe(this.game, 915, 250, "pipe", 0);
-         var pipe1 = new Pipe(this.game, 915, -275, "pipe1", 0);
-         */
-        /*      var pipe = new Pipe(this.game, 915, 230, "pipe", 0);
-         var pipe1 = new Pipe(this.game, 915, -300, "pipe1", 0);*/
         this.add.existing(pipe);
         this.add.existing(pipe1);
         this.pipeGroup.add(pipe);
@@ -148,6 +150,12 @@ var mainState = (function (_super) {
     mainState.prototype.chocaPipe = function () {
         this.pipeGroup.setAll("body.velocity.x", 0);
         this.gameOver(this.bird, this.floor);
+        var twIn = this.add.tween(this.pipeGroup).to({ alpha: 1 }, 50);
+        twIn.start();
+        var twOut = this.add.tween(this.pipeGroup).to({ alpha: 0 }, 500);
+        twIn.onComplete.add(function () {
+            twOut.start();
+        });
     };
     mainState.prototype.gameOver = function (bird, floor) {
         this.gameOverText.visible = true;

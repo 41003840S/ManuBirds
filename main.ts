@@ -71,7 +71,6 @@ class mainState extends Phaser.State {
             this.counter=0;
         }
 
-
         this.moverPipes();
 
         this.background.tilePosition.x -= 2;
@@ -79,6 +78,12 @@ class mainState extends Phaser.State {
             this.scoreText.setText("Score: " + this.score);
         }
 
+        //Si la velocidad
+        if(this.bird.body.velocity.y > 0){
+            this.bird.angle = 45;
+        }else{
+            this.bird.angle = -45;
+        }
     }
 
 
@@ -131,6 +136,7 @@ class mainState extends Phaser.State {
         this.bird.body.collideWorldBounds = true;
         this.bird.checkWorldBounds = true;
         this.bird.body.allowGravity = true;
+        this.bird.body.allowRotation = true;
         this.input.onTap.addOnce(this.empezar,this);
     }
 
@@ -155,8 +161,6 @@ class mainState extends Phaser.State {
             new Point(915, 250),
             new Point(915, 300),
             new Point(915, 230)
-            //new Point(915, 4),
-            //new Point(915, 3)
         ];
 
 
@@ -173,14 +177,6 @@ class mainState extends Phaser.State {
 
         var pipe = new Pipe(this.game, x, y, "pipe", 0);
         var pipe1 = new Pipe(this.game, xA, yA, "pipe1", 0);
-
-        /*
-         var pipe = new Pipe(this.game, 915, 250, "pipe", 0);
-         var pipe1 = new Pipe(this.game, 915, -275, "pipe1", 0);
-         */
-
-        /*      var pipe = new Pipe(this.game, 915, 230, "pipe", 0);
-         var pipe1 = new Pipe(this.game, 915, -300, "pipe1", 0);*/
 
         this.add.existing(pipe);
         this.add.existing(pipe1);
@@ -207,6 +203,13 @@ class mainState extends Phaser.State {
     chocaPipe():void{
         this.pipeGroup.setAll("body.velocity.x", 0);
         this.gameOver(this.bird, this.floor);
+        var twIn = this.add.tween(this.pipeGroup).to({alpha: 1}, 50);
+        twIn.start();
+
+        var twOut = this.add.tween(this.pipeGroup).to({alpha: 0}, 500);
+        twIn.onComplete.add(() => {
+            twOut.start();
+        });
     }
 
 

@@ -64,26 +64,48 @@ class mainState extends Phaser.State {
         this.colisiones();
 
         //Cuando apretamos se ejecuta el metodo para que el pajaro suba
-        this.input.onTap.addOnce(this.subePajaro,this);
+        this.input.onTap.addOnce(this.subePajaro, this);
 
-        if(this.counter == 2 && this.comprobarInicio == true){
+        if (this.counter == 2 && this.comprobarInicio == true) {
             this.crearPipes();
-            this.counter=0;
+            this.counter = 0;
         }
 
         this.moverPipes();
 
         this.background.tilePosition.x -= 2;
-        if(!this.gameOverComp){
+        if (!this.gameOverComp) {
             this.scoreText.setText("Score: " + this.score);
         }
 
-        //Si la velocidad
-        if(this.bird.body.velocity.y > 0){
-            this.bird.angle = 45;
-        }else{
-            this.bird.angle = -45;
+        //Algoritmo de proyecto manhattan para el angulo del pajaro
+        if (this.bird.body.velocity.y < 0 && this.bird.angle > -45) {
+            this.bird.angle -= 3;
+        } else {
+            if (this.bird.body.velocity.y > 0 && this.bird.angle < 90) {
+                this.bird.angle += 7;
+            }
         }
+
+        /*
+                    if (this.bird.body.velocity.y < 0 && this.bird.body.velocity.y > -100) {
+                        this.bird.angle = -15;
+                    } else if (this.bird.body.velocity.y < -100 && this.bird.body.velocity.y > -200) {
+                        this.bird.angle = -25;
+                    } else if (this.bird.body.velocity.y < -200 && this.bird.body.velocity.y > -300) {
+                        this.bird.angle = -35;
+                    } else if (this.bird.body.velocity.y < -300 && this.bird.body.velocity.y > -400) {
+                        this.bird.angle = -45;
+                    }else if (this.bird.body.velocity.y > 0 && this.bird.body.velocity.y < 100) {
+                        this.bird.angle = 15;
+                    }else if (this.bird.body.velocity.y > 100 && this.bird.body.velocity.y < 200) {
+                        this.bird.angle = 25;
+                    }else if (this.bird.body.velocity.y > 200 && this.bird.body.velocity.y < 300) {
+                        this.bird.angle = 35;
+                    }else if (this.bird.body.velocity.y >300) {
+                        this.bird.angle = 45;
+                    }
+            */
     }
 
 

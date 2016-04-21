@@ -56,13 +56,34 @@ var mainState = (function (_super) {
         if (!this.gameOverComp) {
             this.scoreText.setText("Score: " + this.score);
         }
-        //Si la velocidad
-        if (this.bird.body.velocity.y > 0) {
-            this.bird.angle = 45;
+        //Algoritmo de proyecto manhattan para el angulo del pajaro
+        if (this.bird.body.velocity.y < 0 && this.bird.angle > -45) {
+            this.bird.angle -= 3;
         }
         else {
-            this.bird.angle = -45;
+            if (this.bird.body.velocity.y > 0 && this.bird.angle < 90) {
+                this.bird.angle += 7;
+            }
         }
+        /*
+                    if (this.bird.body.velocity.y < 0 && this.bird.body.velocity.y > -100) {
+                        this.bird.angle = -15;
+                    } else if (this.bird.body.velocity.y < -100 && this.bird.body.velocity.y > -200) {
+                        this.bird.angle = -25;
+                    } else if (this.bird.body.velocity.y < -200 && this.bird.body.velocity.y > -300) {
+                        this.bird.angle = -35;
+                    } else if (this.bird.body.velocity.y < -300 && this.bird.body.velocity.y > -400) {
+                        this.bird.angle = -45;
+                    }else if (this.bird.body.velocity.y > 0 && this.bird.body.velocity.y < 100) {
+                        this.bird.angle = 15;
+                    }else if (this.bird.body.velocity.y > 100 && this.bird.body.velocity.y < 200) {
+                        this.bird.angle = 25;
+                    }else if (this.bird.body.velocity.y > 200 && this.bird.body.velocity.y < 300) {
+                        this.bird.angle = 35;
+                    }else if (this.bird.body.velocity.y >300) {
+                        this.bird.angle = 45;
+                    }
+            */
     };
     //----------------------CREATES------------------------------//
     mainState.prototype.crearTextos = function () {
